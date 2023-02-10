@@ -25,13 +25,13 @@ namespace SIS.Business.Services.Implementations
 
         public async Task<List<StudentDto>> FindAllAsync()
         {
-            var students=await _studentRepository.FindAll().ToListAsync();
+            var students=await _studentRepository.FindAll().Include(f=>f.Faculty).ToListAsync();
             return _mapper.Map<List<StudentDto>>(students);
         }
 
         public async Task<List<StudentDto>> FindByConditionAsync(Expression<Func<Student, bool>> expression)
         {
-            var students = await _studentRepository.FindByCondition(expression).ToListAsync();
+            var students = await _studentRepository.FindByCondition(expression).Include(f=>f.Faculty).ToListAsync();
             return _mapper.Map<List<StudentDto>>(students);
 
         }

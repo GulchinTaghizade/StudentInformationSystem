@@ -12,7 +12,8 @@ namespace SIS.Business.DTOs
         public string? FatherName { get; set; }
         public DateTime? BirthDate { get; set; }
         public string? Email { get; set; }
-        public Speciality? Speciality { get; set; }
+        public string? Speciality { get; set; }
+        public string? Faculty { get; set; }
         public string? EducationalLevel { get; set; }
         public string? GroupName { get; set; }
         public string? YearOfStudy { get; set; }
