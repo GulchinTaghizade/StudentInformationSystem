@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SIS.DataAccess\SIS.DataAccess.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Services\" />
+    <None Remove="Services\Interfaces\" />
+    <None Remove="Services\Implementations\" />
+    <None Remove="DTOs\" />
+    <None Remove="Validators\" />
+    <None Remove="Exceptions\" />
+    <None Remove="Mappers\" />
+    <None Remove="AutoMapper.Extensions.Microsoft.DependencyInjection" />
+    <None Remove="AutoMapper" />
+    <None Remove="DTOs\StudentDtos\" />
+    <None Remove="Validators\Students\" />
+    <None Remove="FluentValidation" />
+    <None Remove="FluentValidation.DependencyInjectionExtensions" />
+    <None Remove="FluentValidation.AspNetCore" />
+    <None Remove="DTOs\FacultyDtos\" />
+    <None Remove="Validators\Faculties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Services\Interfaces\" />
+    <Folder Include="Services\Implementations\" />
+    <Folder Include="DTOs\" />
+    <Folder Include="Validators\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Mappers\" />
+    <Folder Include="DTOs\StudentDtos\" />
+    <Folder Include="Validators\Students\" />
+    <Folder Include="DTOs\FacultyDtos\" />
+    <Folder Include="Validators\Faculties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.4.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
+  </ItemGroup>
+</Project>
