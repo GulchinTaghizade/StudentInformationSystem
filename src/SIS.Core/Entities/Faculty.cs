@@ -8,6 +8,7 @@ namespace SIS.Core.Entities
         public int Id { get ; set ; }
         public string? Name { get; set; }
         public string? FacultyNo { get; set; }
+
     }
 }
 

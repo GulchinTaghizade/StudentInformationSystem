@@ -11,7 +11,7 @@ namespace SIS.Business.Services.Interfaces
 		Task<List<SpecialityDto>> FindByCondition(Expression<Func<Speciality, bool>> expression);
 		Task<SpecialityDto> FindByIdAsync(int id);
 		Task CreateAsync(SpecialityPostDto speciality);
-		Task UpdateAsync(int id,SpecialityDto speciality);
+		Task UpdateAsync(int id,SpecialityUpdateDto speciality);
 		Task Delete(int id);
 	}
 }

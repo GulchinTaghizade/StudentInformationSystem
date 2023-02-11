@@ -27,6 +27,7 @@
     <None Remove="DTOs\FacultyDtos\" />
     <None Remove="Validators\Faculties\" />
     <None Remove="DTOs\SpecialityDtos\" />
+    <None Remove="Validators\Specialities\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
@@ -41,6 +42,7 @@
     <Folder Include="DTOs\FacultyDtos\" />
     <Folder Include="Validators\Faculties\" />
     <Folder Include="DTOs\SpecialityDtos\" />
+    <Folder Include="Validators\Specialities\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />

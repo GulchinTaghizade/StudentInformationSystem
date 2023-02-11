@@ -30,7 +30,7 @@ namespace SIS.Business.Services.Implementations
         public async Task<List<FacultyDto>> FindByConditionAsync(Expression<Func<Faculty, bool>> expression)
         {
             var faculties = await _facultyrepository.FindByCondition(expression).ToListAsync();
-            if (faculties is null) throw new NotFoundException("Faculties is not found!");
+            if (faculties is null) throw new NotFoundException("Faculties are not found!");
             return _mapper.Map<List<FacultyDto>>(faculties);
         }
 
@@ -54,8 +54,7 @@ namespace SIS.Business.Services.Implementations
             {
                 throw new BadRequestException("Faculty ID mismatch");
             }
-            var facultyToUpdate = _facultyrepository.
-                FindByCondition(f=>f.Id.Equals(id));
+            var facultyToUpdate = _facultyrepository.FindByCondition(f => f.Id.Equals(faculty.Id)).First();
             if (facultyToUpdate is null)
             {
                 throw new NotFoundException("Faculty is not found!");

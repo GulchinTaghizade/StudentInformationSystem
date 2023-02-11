@@ -73,7 +73,7 @@ namespace SIS.API.Controllers
             }
             catch (FormatException ex)
             {
-                return NotFound(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception)
             {

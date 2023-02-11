@@ -25,12 +25,13 @@ builder.Services.AddValidatorsFromAssembly(typeof(StundentPostDtoValidator).Asse
 //builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 //builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 //builder.Services.AddScoped<IRoomRepository, RoomRepository>();
-//builder.Services.AddScoped<ISpecialityRepository, SpecialityRepository>();
 //builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IFacultyRepository, FacultyRepository>();
 builder.Services.AddScoped<IFacultyService, FacultyService>();
+builder.Services.AddScoped<ISpecialityRepository, SpecialityRepository>();
+builder.Services.AddScoped<ISpecialityService, SpecialityService>();
 
 
 
