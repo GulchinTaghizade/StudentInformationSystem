@@ -12,8 +12,8 @@ using SIS.DataAccess.Context;
 namespace SIS.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230211200436_SpecialityRowAddedToFaculty")]
-    partial class SpecialityRowAddedToFaculty
+    [Migration("20230213083026_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,10 +54,10 @@ namespace SIS.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SpecialityId")
+                    b.Property<int>("SpecialityId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -115,10 +115,10 @@ namespace SIS.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GroupId")
+                    b.Property<int>("GroupId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -160,10 +160,10 @@ namespace SIS.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RoomId")
+                    b.Property<int>("RoomId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -231,6 +231,9 @@ namespace SIS.DataAccess.Migrations
                     b.Property<decimal?>("GPA")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
+
                     b.Property<string>("GroupName")
                         .HasColumnType("nvarchar(max)");
 
@@ -259,6 +262,8 @@ namespace SIS.DataAccess.Migrations
 
                     b.HasIndex("FacultyId");
 
+                    b.HasIndex("GroupId");
+
                     b.HasIndex("SpecialityId");
 
                     b.ToTable("Students");
@@ -272,10 +277,10 @@ namespace SIS.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StudentId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -332,10 +337,10 @@ namespace SIS.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TeacherId")
+                    b.Property<int>("TeacherId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -355,10 +360,10 @@ namespace SIS.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("StudentId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TeacherId")
+                    b.Property<int>("TeacherId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -373,12 +378,16 @@ namespace SIS.DataAccess.Migrations
             modelBuilder.Entity("SIS.Core.Entities.CourseSpeciality", b =>
                 {
                     b.HasOne("SIS.Core.Entities.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId");
+                        .WithMany("CourseSpecialities")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SIS.Core.Entities.Speciality", "Speciality")
-                        .WithMany()
-                        .HasForeignKey("SpecialityId");
+                        .WithMany("CourseSpecialities")
+                        .HasForeignKey("SpecialityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Course");
 
@@ -388,12 +397,16 @@ namespace SIS.DataAccess.Migrations
             modelBuilder.Entity("SIS.Core.Entities.GroupCourse", b =>
                 {
                     b.HasOne("SIS.Core.Entities.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId");
+                        .WithMany("GroupCourses")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SIS.Core.Entities.Group", "Group")
-                        .WithMany()
-                        .HasForeignKey("GroupId");
+                        .WithMany("GroupCourses")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Course");
 
@@ -403,12 +416,16 @@ namespace SIS.DataAccess.Migrations
             modelBuilder.Entity("SIS.Core.Entities.RoomCourse", b =>
                 {
                     b.HasOne("SIS.Core.Entities.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId");
+                        .WithMany("RoomCourses")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SIS.Core.Entities.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId");
+                        .WithMany("RoomCourses")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Course");
 
@@ -427,11 +444,15 @@ namespace SIS.DataAccess.Migrations
             modelBuilder.Entity("SIS.Core.Entities.Student", b =>
                 {
                     b.HasOne("SIS.Core.Entities.Faculty", "Faculty")
-                        .WithMany()
+                        .WithMany("Students")
                         .HasForeignKey("FacultyId");
 
+                    b.HasOne("SIS.Core.Entities.Group", null)
+                        .WithMany("Students")
+                        .HasForeignKey("GroupId");
+
                     b.HasOne("SIS.Core.Entities.Speciality", "Speciality")
-                        .WithMany()
+                        .WithMany("Students")
                         .HasForeignKey("SpecialityId");
 
                     b.Navigation("Faculty");
@@ -442,12 +463,16 @@ namespace SIS.DataAccess.Migrations
             modelBuilder.Entity("SIS.Core.Entities.StudentCourse", b =>
                 {
                     b.HasOne("SIS.Core.Entities.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId");
+                        .WithMany("StudentCourses")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SIS.Core.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId");
+                        .WithMany("StudentCourses")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Course");
 
@@ -457,12 +482,16 @@ namespace SIS.DataAccess.Migrations
             modelBuilder.Entity("SIS.Core.Entities.TeacherCourse", b =>
                 {
                     b.HasOne("SIS.Core.Entities.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId");
+                        .WithMany("TeacherCourses")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SIS.Core.Entities.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherId");
+                        .WithMany("TeacherCourses")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Course");
 
@@ -472,21 +501,73 @@ namespace SIS.DataAccess.Migrations
             modelBuilder.Entity("SIS.Core.Entities.TeacherStudent", b =>
                 {
                     b.HasOne("SIS.Core.Entities.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId");
+                        .WithMany("TeacherStudents")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SIS.Core.Entities.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherId");
+                        .WithMany("TeacherStudents")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Student");
 
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("SIS.Core.Entities.Course", b =>
+                {
+                    b.Navigation("CourseSpecialities");
+
+                    b.Navigation("GroupCourses");
+
+                    b.Navigation("RoomCourses");
+
+                    b.Navigation("StudentCourses");
+
+                    b.Navigation("TeacherCourses");
+                });
+
             modelBuilder.Entity("SIS.Core.Entities.Faculty", b =>
                 {
                     b.Navigation("Specialities");
+
+                    b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("SIS.Core.Entities.Group", b =>
+                {
+                    b.Navigation("GroupCourses");
+
+                    b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("SIS.Core.Entities.Room", b =>
+                {
+                    b.Navigation("RoomCourses");
+                });
+
+            modelBuilder.Entity("SIS.Core.Entities.Speciality", b =>
+                {
+                    b.Navigation("CourseSpecialities");
+
+                    b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("SIS.Core.Entities.Student", b =>
+                {
+                    b.Navigation("StudentCourses");
+
+                    b.Navigation("TeacherStudents");
+                });
+
+            modelBuilder.Entity("SIS.Core.Entities.Teacher", b =>
+                {
+                    b.Navigation("TeacherCourses");
+
+                    b.Navigation("TeacherStudents");
                 });
 #pragma warning restore 612, 618
         }

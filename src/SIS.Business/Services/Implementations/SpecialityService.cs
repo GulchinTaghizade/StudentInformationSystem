@@ -14,12 +14,14 @@ namespace SIS.Business.Services.Implementations
 	public class SpecialityService:ISpecialityService
 	{
         private readonly ISpecialityRepository _specialityRepository;
+        private readonly IFacultyRepository _facultyRepository;
         private readonly IMapper _mapper;
 
-        public SpecialityService(IMapper mapper, ISpecialityRepository specialityRepository)
+        public SpecialityService(IMapper mapper, ISpecialityRepository specialityRepository, IFacultyRepository facultyRepository)
         {
             _mapper = mapper;
             _specialityRepository = specialityRepository;
+            _facultyRepository = facultyRepository;
         }
 
 

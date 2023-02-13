@@ -14,6 +14,10 @@ namespace SIS.Core.Entities
         public string? Address { get; set; }
         public string? Phone { get; set; }
         public string? Email { get; set; }
+
+        public ICollection<TeacherCourse>? TeacherCourses { get; set; }
+        public ICollection<TeacherStudent>? TeacherStudents { get; set; }
+
     }
 }
 

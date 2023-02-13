@@ -25,7 +25,10 @@ namespace SIS.Business.Services.Implementations
 
         public async Task<List<StudentDto>> FindAllAsync()
         {
-            var students=await _studentRepository.FindAll().Include(f=>f.Faculty).ToListAsync();
+            var students=await _studentRepository.FindAll()
+                .Include(f=>f.Faculty)
+                .Include(s => s.Speciality)
+                .ToListAsync();
             return _mapper.Map<List<StudentDto>>(students);
         }
 

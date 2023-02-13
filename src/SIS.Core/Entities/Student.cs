@@ -22,6 +22,10 @@ namespace SIS.Core.Entities
         public string? GroupName { get; set; }
         public string? YearOfStudy { get; set; }
         public decimal? GPA { get; set; }
+
+        public ICollection<TeacherStudent>? TeacherStudents { get; set; }
+        public ICollection<StudentCourse>? StudentCourses { get; set; }
+
     }
 }
 

@@ -63,6 +63,39 @@ namespace SIS.Business.Validators.Students
                MaximumLength(100).
                WithMessage("Max Length : 100").
                EmailAddress();
+            RuleFor(s => s.EducationalLevel).
+              NotEmpty().
+              WithMessage("EducationalLevel is required").
+              NotNull().
+              WithMessage("EducationalLevel is required").
+              MaximumLength(25).
+              WithMessage("Max Length : 25");
+            RuleFor(s => s.EducationalLanguage).
+               NotEmpty().
+               WithMessage("EducationalLanguage is required").
+               NotNull().
+               WithMessage("EducationalLanguage is required").
+               MaximumLength(25).
+              WithMessage("Max Length : 25");
+            RuleFor(s => s.GroupName).
+               NotEmpty().
+               WithMessage("GroupName is required").
+               NotNull().
+               WithMessage("GroupName is required").
+               MaximumLength(25).
+               WithMessage("Max Length : 25");
+            RuleFor(s => s.YearOfStudy).
+               NotEmpty().
+               WithMessage("YearOfStudy is required").
+               NotNull().
+               WithMessage("YearOfStudy is required").
+               MaximumLength(25).
+               WithMessage("Max Length : 25");
+            RuleFor(s => s.GPA).
+               NotEmpty().
+               WithMessage("GPA is required").
+               NotNull().
+               WithMessage("GPA is required");
         }
     }
 }

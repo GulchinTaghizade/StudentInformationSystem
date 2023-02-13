@@ -9,6 +9,10 @@ namespace SIS.Core.Entities
         public string? Name { get; set; }
         public string? SpecialityNo { get; set; }
         public Faculty? Faculty { get; set; }
+
+        public ICollection<Student>? Students { get; set; }
+        public ICollection<CourseSpeciality>? CourseSpecialities { get; set; }
+
     }
 }
 
