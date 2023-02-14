@@ -15,8 +15,6 @@ namespace SIS.Core.Entities
         public ICollection<TeacherCourse>? TeacherCourses { get; set; }
         public ICollection<GroupCourse>? GroupCourses { get; set; }
         public ICollection<RoomCourse>? RoomCourses { get; set; }
-
-
     }
 }
 

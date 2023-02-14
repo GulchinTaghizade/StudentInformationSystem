@@ -22,7 +22,6 @@ builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssembly(typeof(StundentPostDtoValidator).Assembly);
 
 
-//builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 //builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 //builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 //builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
@@ -32,6 +31,8 @@ builder.Services.AddScoped<IFacultyRepository, FacultyRepository>();
 builder.Services.AddScoped<IFacultyService, FacultyService>();
 builder.Services.AddScoped<ISpecialityRepository, SpecialityRepository>();
 builder.Services.AddScoped<ISpecialityService, SpecialityService>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 
 
 
