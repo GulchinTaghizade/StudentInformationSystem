@@ -29,7 +29,7 @@ namespace SIS.API.Controllers
         {
             try
             {
-                var courses= await _courseService.FindAllAsync();
+                var courses = await _courseService.FindAllAsync();
                 return Ok(courses);
             }
             catch (NotFoundException ex)
@@ -43,14 +43,14 @@ namespace SIS.API.Controllers
         {
             try
             {
-                var course = await _courseService.FindByConditionAsync(c => c.Name !=null  ? c.Name.Contains(name):false);
+                var course = await _courseService.FindByConditionAsync(c => c.Name != null ? c.Name.Contains(name) : false);
                 return Ok(course);
             }
             catch (NotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
-            catch(BadRequestException ex)
+            catch (BadRequestException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -97,11 +97,11 @@ namespace SIS.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id,CourseUpdateDto course)
+        public async Task<IActionResult> Put(int id, CourseUpdateDto course)
         {
             try
             {
-                await _courseService.Update(id,course);
+                await _courseService.Update(id, course);
                 return Ok(course);
             }
             catch (NotFoundException ex)
@@ -139,4 +139,5 @@ namespace SIS.API.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
+    }
 }

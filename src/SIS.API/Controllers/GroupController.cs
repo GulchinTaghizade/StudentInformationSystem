@@ -5,21 +5,22 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SIS.Business.DTOs.FacultyDtos;
+using SIS.Business.DTOs.GroupDtos;
 using SIS.Business.Exceptions;
+using SIS.Business.Services.Implementations;
 using SIS.Business.Services.Interfaces;
 
 namespace SIS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FacultyController : ControllerBase
+    public class GroupController : ControllerBase
     {
-        private readonly IFacultyService _facultyService;
+        private readonly IGroupService _groupService;
 
-        public FacultyController(IFacultyService facultyService)
+        public GroupController(IGroupService groupService)
         {
-            _facultyService = facultyService;
+            _groupService = groupService;
         }
 
         [HttpGet]
@@ -27,12 +28,16 @@ namespace SIS.API.Controllers
         {
             try
             {
-                var faculties= await _facultyService.FindAllAsync();
-                return Ok(faculties);
+                var groups = await _groupService.FindAllAsync();
+                return Ok(groups);
             }
-            catch (Exception ex)
+            catch (NotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
 
@@ -41,9 +46,9 @@ namespace SIS.API.Controllers
         {
             try
             {
-               var faculties= await _facultyService
-                    .FindByConditionAsync(f => f.Name != null ? f.Name.Contains(name) : false);
-                return Ok(faculties);
+                var groups = await _groupService
+                    .FindbyConditionAsync(g => g.Name != null ? g.Name.Contains(name) : false);
+                return Ok(groups);
             }
             catch (NotFoundException ex)
             {
@@ -59,13 +64,13 @@ namespace SIS.API.Controllers
             }
         }
 
-        [HttpGet("GetById/{id}")]
+        [HttpGet("GetById/{Id}")]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var faculty = await _facultyService.FindById(id);
-                return Ok(faculty);
+                var groups = await _groupService.FindById(id);
+                return Ok(groups);
             }
             catch (NotFoundException ex)
             {
@@ -82,12 +87,20 @@ namespace SIS.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(FacultyPostDto faculty)
+        public async Task<IActionResult> Post(GroupPostDto group)
         {
             try
             {
-                await _facultyService.CreateAsync(faculty);
-                return Ok("Faculty successfully created");
+                await _groupService.Create(group);
+                return Ok($"Group - {group.Name} successfully created.");
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (FormatException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception)
             {
@@ -96,12 +109,12 @@ namespace SIS.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id ,FacultyDto faculty)
+        public async Task<IActionResult> Put(int id, GroupDto group)
         {
             try
             {
-                await _facultyService.UpdateAsync(id, faculty);
-                return Ok(faculty);
+                await _groupService.Update(id,group);
+                return Ok($"Group - {group.Name} successfully updated.");
             }
             catch (NotFoundException ex)
             {
@@ -122,8 +135,8 @@ namespace SIS.API.Controllers
         {
             try
             {
-                await  _facultyService.Delete(id);
-                return Ok("Faculty successfully deleted");
+                await _groupService.Delete(id);
+                return Ok("Group successfully deleted.");
             }
             catch (NotFoundException ex)
             {
@@ -137,6 +150,7 @@ namespace SIS.API.Controllers
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
+
         }
     }
 }

@@ -30,6 +30,8 @@
     <None Remove="Validators\Specialities\" />
     <None Remove="DTOs\CourseDtos\" />
     <None Remove="Validators\Courses\" />
+    <None Remove="DTOs\GroupDtos\" />
+    <None Remove="Validators\Groups\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
@@ -47,6 +49,8 @@
     <Folder Include="Validators\Specialities\" />
     <Folder Include="DTOs\CourseDtos\" />
     <Folder Include="Validators\Courses\" />
+    <Folder Include="DTOs\GroupDtos\" />
+    <Folder Include="Validators\Groups\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
