@@ -9,7 +9,7 @@ namespace SIS.Business.Services.Interfaces
 	{
 		Task<List<FacultyDto>> FindAllAsync();
 		Task<List<FacultyDto>> FindByConditionAsync(Expression<Func<Faculty, bool>> expression);
-        Task<FacultyDto> FindById(int id);
+        Task<FacultyDto> FindByIdAsync(int id);
 		Task CreateAsync(FacultyPostDto faculty);
 		Task UpdateAsync(int id,FacultyDto facullty);
 		Task Delete(int id);

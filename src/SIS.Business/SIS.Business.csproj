@@ -32,6 +32,10 @@
     <None Remove="Validators\Courses\" />
     <None Remove="DTOs\GroupDtos\" />
     <None Remove="Validators\Groups\" />
+    <None Remove="DTOs\RoomDtos\" />
+    <None Remove="DTOs\TeacherDtos\" />
+    <None Remove="Validators\Rooms\" />
+    <None Remove="Validators\Teachers\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
@@ -51,6 +55,10 @@
     <Folder Include="Validators\Courses\" />
     <Folder Include="DTOs\GroupDtos\" />
     <Folder Include="Validators\Groups\" />
+    <Folder Include="DTOs\RoomDtos\" />
+    <Folder Include="DTOs\TeacherDtos\" />
+    <Folder Include="Validators\Rooms\" />
+    <Folder Include="Validators\Teachers\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />

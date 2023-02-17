@@ -5,22 +5,22 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SIS.Business.DTOs.GroupDtos;
+using SIS.Business.DTOs.RoomDtos;
 using SIS.Business.Exceptions;
-using SIS.Business.Services.Implementations;
 using SIS.Business.Services.Interfaces;
+using SIS.Core.Entities;
 
 namespace SIS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class GroupController : ControllerBase
+    public class RoomController : ControllerBase
     {
-        private readonly IGroupService _groupService;
+        private readonly IRoomService _roomService;
 
-        public GroupController(IGroupService groupService)
+        public RoomController(IRoomService roomService)
         {
-            _groupService = groupService;
+            _roomService = roomService;
         }
 
         [HttpGet]
@@ -28,35 +28,35 @@ namespace SIS.API.Controllers
         {
             try
             {
-                var groups = await _groupService.FindAllAsync();
-                return Ok(groups);
+                var rooms=await _roomService.FindAllAsync();
+                return Ok(rooms);
             }
-            catch (NotFoundException ex)
+            catch(NotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
-            catch (Exception)
+            catch (Exception )
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
 
-        [HttpGet("GetByName/{name}")]
-        public async Task<IActionResult> GetByName(string name)
+        [HttpGet("GetByRoomNo/{roomNo}")]
+        public async Task<IActionResult> GetByNumber(int roomNo)
         {
             try
             {
-                var groups = await _groupService
-                    .FindbyConditionAsync(g => g.Name != null ? g.Name.Contains(name) : false);
-                return Ok(groups);
+                var rooms = await _roomService.
+                    FindByConditionAsync(r => r.RoomNo != null ? r.RoomNo.Equals(roomNo) : false);
+                return Ok(rooms);
+            }
+            catch(FormatException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (NotFoundException ex)
             {
                 return NotFound(ex.Message);
-            }
-            catch (FormatException ex)
-            {
-                return BadRequest(ex.Message);
             }
             catch (Exception)
             {
@@ -64,21 +64,21 @@ namespace SIS.API.Controllers
             }
         }
 
-        [HttpGet("GetById/{Id}")]
+        [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var groups = await _groupService.FindByIdAsync(id);
-                return Ok(groups);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
+                var room = await _roomService.FindByIdAsync(id);
+                return Ok(room);
             }
             catch (FormatException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (Exception)
             {
@@ -87,12 +87,12 @@ namespace SIS.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(GroupPostDto group)
+        public async Task<IActionResult> Post(RoomPostDto room)
         {
             try
             {
-                await _groupService.CreateAsync(group);
-                return Ok($"Group - {group.Name} successfully created.");
+                await _roomService.CreateAsync(room);
+                return Ok("Room successfully created!");
             }
             catch (Exception)
             {
@@ -101,20 +101,20 @@ namespace SIS.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id, GroupDto group)
+        public async Task<IActionResult> Put(int id,RoomDto room)
         {
             try
             {
-                await _groupService.UpdateAsync(id,group);
-                return Ok($"Group - {group.Name} successfully updated.");
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
+                await _roomService.UpdateAsync(id,room);
+                return Ok("Room is updated");
             }
             catch (FormatException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (Exception)
             {
@@ -127,22 +127,21 @@ namespace SIS.API.Controllers
         {
             try
             {
-                await _groupService.Delete(id);
-                return Ok("Group successfully deleted.");
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
+                await _roomService.Delete(id);
+                return Ok("Room is deleted");
             }
             catch (FormatException ex)
             {
                 return BadRequest(ex.Message);
             }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (Exception)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError);
             }
-
         }
     }
 }

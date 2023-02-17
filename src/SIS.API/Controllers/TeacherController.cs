@@ -5,30 +5,31 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SIS.Business.DTOs.FacultyDtos;
+using SIS.Business.DTOs.StudentDtos;
+using SIS.Business.DTOs.TeacherDtos;
 using SIS.Business.Exceptions;
+using SIS.Business.Services.Implementations;
 using SIS.Business.Services.Interfaces;
 
 namespace SIS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FacultyController : ControllerBase
+    public class TeacherController : ControllerBase
     {
-        private readonly IFacultyService _facultyService;
+        private readonly ITeacherService _teacherService;
 
-        public FacultyController(IFacultyService facultyService)
+        public TeacherController(ITeacherService teacherService)
         {
-            _facultyService = facultyService;
+            _teacherService = teacherService;
         }
-
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             try
             {
-                var faculties= await _facultyService.FindAllAsync();
-                return Ok(faculties);
+                var teachers = await _teacherService.FindAllAsync();
+                return Ok(teachers);
             }
             catch (Exception ex)
             {
@@ -36,14 +37,14 @@ namespace SIS.API.Controllers
             }
         }
 
-        [HttpGet("GetByName/{name}")]
+        [HttpGet("getByName/{name}")]
         public async Task<IActionResult> GetByName(string name)
         {
             try
             {
-               var faculties= await _facultyService
-                    .FindByConditionAsync(f => f.Name != null ? f.Name.Contains(name) : false);
-                return Ok(faculties);
+                var teachers = await _teacherService
+                    .FindByConditionAsync(s => s.Name != null ? s.Name.Contains(name) : true);
+                return Ok(teachers);
             }
             catch (NotFoundException ex)
             {
@@ -59,13 +60,13 @@ namespace SIS.API.Controllers
             }
         }
 
-        [HttpGet("GetById/{id}")]
+        [HttpGet("getByID/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var faculty = await _facultyService.FindByIdAsync(id);
-                return Ok(faculty);
+                var teacher = await _teacherService.FindByIdAsync(id);
+                return Ok(teacher);
             }
             catch (NotFoundException ex)
             {
@@ -82,12 +83,12 @@ namespace SIS.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(FacultyPostDto faculty)
+        public async Task<IActionResult> Post(TeacherPostDto teacher)
         {
             try
             {
-                await _facultyService.CreateAsync(faculty);
-                return Ok("Faculty successfully created");
+                await _teacherService.CreateAsync(teacher);
+                return Ok("Teacher successfully created.");
             }
             catch (Exception)
             {
@@ -96,18 +97,18 @@ namespace SIS.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(int id ,FacultyDto faculty)
+        public async Task<IActionResult> Put(int id, TeacherUpdateDto teacher)
         {
             try
             {
-                await _facultyService.UpdateAsync(id, faculty);
-                return Ok(faculty);
+                await _teacherService.UpdateAsync(id, teacher);
+                return Ok("Teacher successfully updated.");
             }
             catch (NotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
-            catch (FormatException ex)
+            catch (BadRequestException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -117,19 +118,19 @@ namespace SIS.API.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                await  _facultyService.Delete(id);
-                return Ok("Faculty successfully deleted");
+                await _teacherService.Delete(id);
+                return Ok("Teacher successfully deleted.");
             }
             catch (NotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
-            catch (FormatException ex)
+            catch (BadRequestException ex)
             {
                 return BadRequest(ex.Message);
             }

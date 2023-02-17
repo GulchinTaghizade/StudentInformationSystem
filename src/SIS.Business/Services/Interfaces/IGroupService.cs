@@ -9,9 +9,9 @@ namespace SIS.Business.Services.Interfaces
 	{
 		Task<List<GroupDto>> FindAllAsync();
         Task<List<GroupDto>> FindbyConditionAsync(Expression<Func<Group, bool>> expression);
-        Task<GroupDto> FindById(int id);
-        Task Create(GroupPostDto group);
-        Task Update(int id, GroupDto group);
+        Task<GroupDto> FindByIdAsync(int id);
+        Task CreateAsync(GroupPostDto group);
+        Task UpdateAsync(int id, GroupDto group);
         Task Delete(int id);
     }
 }

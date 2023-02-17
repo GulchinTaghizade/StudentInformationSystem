@@ -4,9 +4,9 @@ using SIS.Business.DTOs.StudentDtos;
 
 namespace SIS.Business.Validators.Students
 {
-	public class StundentPostDtoValidator:AbstractValidator<StudentPostDto>
+	public class StudentPostDtoValidator:AbstractValidator<StudentPostDto>
 	{
-		public StundentPostDtoValidator()
+		public StudentPostDtoValidator()
 		{
             RuleFor(s => s.NationalId).
                 NotEmpty().
@@ -57,9 +57,9 @@ namespace SIS.Business.Validators.Students
                WithMessage("Max Length : 25");
             RuleFor(s => s.Email).
                NotEmpty().
-               WithMessage("FatherName is required").
+               WithMessage("Email is required").
                NotNull().
-               WithMessage("FatherName is required").
+               WithMessage("Email is required").
                MaximumLength(100).
                WithMessage("Max Length : 100").
                EmailAddress();

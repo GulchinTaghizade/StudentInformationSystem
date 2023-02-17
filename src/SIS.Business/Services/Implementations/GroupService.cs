@@ -36,7 +36,7 @@ namespace SIS.Business.Services.Implementations
 
         }
 
-        public async Task<GroupDto> FindById(int id)
+        public async Task<GroupDto> FindByIdAsync(int id)
         {
             var group = await _groupRepository.FindByIdAsync(id);
             if (group is null)
@@ -46,14 +46,14 @@ namespace SIS.Business.Services.Implementations
             return _mapper.Map<GroupDto>(group);
         }
 
-        public async Task Create(GroupPostDto group)
+        public async Task CreateAsync(GroupPostDto group)
         {
             var groupToCreate = _mapper.Map<Group>(group);
             await _groupRepository.CreateAsync(groupToCreate);
             await _groupRepository.SaveAsync();
         }
 
-        public async Task Update(int id, GroupDto group)
+        public async Task UpdateAsync(int id, GroupDto group)
         {
             if (id != group.Id)
             {

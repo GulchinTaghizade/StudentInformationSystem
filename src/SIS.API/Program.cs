@@ -19,11 +19,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssembly(typeof(StundentPostDtoValidator).Assembly);
+builder.Services.AddValidatorsFromAssembly(typeof(StudentPostDtoValidator).Assembly);
 
 
-//builder.Services.AddScoped<IRoomRepository, RoomRepository>();
-//builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
+
+
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IFacultyRepository, FacultyRepository>();
@@ -34,6 +34,10 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddScoped<IGroupService, GroupService>();
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+builder.Services.AddScoped<IRoomService, RoomService>();
+builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
 
 
 

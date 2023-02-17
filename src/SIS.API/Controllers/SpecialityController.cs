@@ -90,14 +90,6 @@ namespace SIS.API.Controllers
                 await _specialityService.CreateAsync(speciality);
                 return Ok("Speciality successfully created");
             }
-            catch (FormatException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
             catch (Exception)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError);

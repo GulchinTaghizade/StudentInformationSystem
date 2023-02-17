@@ -76,7 +76,7 @@ namespace SIS.Business.Services.Implementations
             var studentToDelete = await _studentRepository.FindByIdAsync(id);
             if (studentToDelete is null)
             {
-                throw new NotFoundException("Course is not found");
+                throw new NotFoundException("Student is not found");
             }
             _studentRepository.Delete(studentToDelete);
             await _studentRepository.SaveAsync();

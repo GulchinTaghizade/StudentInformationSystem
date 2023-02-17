@@ -34,7 +34,7 @@ namespace SIS.Business.Services.Implementations
             return _mapper.Map<List<FacultyDto>>(faculties);
         }
 
-        public async Task<FacultyDto> FindById(int id)
+        public async Task<FacultyDto> FindByIdAsync(int id)
         {
             var faculty = await _facultyrepository.FindByIdAsync(id);
             if (faculty is null) throw new NotFoundException("Faculty is not found!");
