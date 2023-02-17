@@ -90,6 +90,10 @@ namespace SIS.API.Controllers
                 await _courseService.CreateAsync(course);
                 return Ok("Course successfully created");
             }
+            catch (RecordDublicatedException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError);

@@ -9,9 +9,17 @@
   <ItemGroup>
     <None Remove="Entities\" />
     <None Remove="IEntity\" />
+    <None Remove="Entities\Identity\" />
+    <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <None Remove="Enums\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Entities\" />
     <Folder Include="Interfaces\" />
+    <Folder Include="Entities\Identity\" />
+    <Folder Include="Enums\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.12" />
   </ItemGroup>
 </Project>

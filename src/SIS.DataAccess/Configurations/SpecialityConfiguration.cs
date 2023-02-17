@@ -11,7 +11,7 @@ namespace SIS.DataAccess.Configurations
         {
             builder.Property(s => s.Name).IsRequired(true).HasMaxLength(100);
             builder.Property(s => s.SpecialityNo).IsRequired(true).HasMaxLength(100);
-            builder.Property(s => s.Faculty).IsRequired(true).HasMaxLength(100);
+            builder.Property(s => s.Faculty).IsRequired(true);
         }
     }
 }

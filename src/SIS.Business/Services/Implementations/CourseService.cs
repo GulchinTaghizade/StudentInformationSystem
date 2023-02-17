@@ -51,6 +51,11 @@ namespace SIS.Business.Services.Implementations
 
         public async Task CreateAsync(CoursePostDto course)
         {
+            var isExist = await _courseRepository.IsExistAsync(c=>c.CourseCode==course.CourseCode);
+            if (isExist)
+            {
+                throw new RecordDublicatedException("This course is already exist");
+            }
             var courseToCreate= _mapper.Map<Course>(course);
             await _courseRepository.CreateAsync(courseToCreate);
             await _courseRepository.SaveAsync();

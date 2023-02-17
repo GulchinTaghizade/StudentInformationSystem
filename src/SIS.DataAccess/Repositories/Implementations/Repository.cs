@@ -54,7 +54,17 @@ namespace SIS.DataAccess.Repositories.Implementations
         {
             await _context.SaveChangesAsync();
         }
-      
+
+        public async Task<bool> IsExistAsync(Expression<Func<T, bool>> expression)
+        {
+
+            var checker = Table.AsQueryable().Any(expression);
+            if (checker)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
 

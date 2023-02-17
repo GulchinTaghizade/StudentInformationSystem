@@ -94,6 +94,10 @@ namespace SIS.API.Controllers
                 await _roomService.CreateAsync(room);
                 return Ok("Room successfully created!");
             }
+            catch (RecordDublicatedException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError);

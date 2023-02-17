@@ -53,6 +53,11 @@ namespace SIS.Business.Services.Implementations
 
         public async Task CreateAsync(SpecialityPostDto speciality)
         {
+            var isExist = await _specialityRepository.IsExistAsync(s=>s.SpecialityNo==speciality.SpecialityNo);
+            if (isExist)
+            {
+                throw new RecordDublicatedException("This speciality is already exist");
+            }
             var newSpeciality= _mapper.Map<Speciality>(speciality);
             await _specialityRepository.CreateAsync(newSpeciality);
             await _specialityRepository.SaveAsync();

@@ -14,7 +14,8 @@ namespace SIS.DataAccess.Repositories.Interfaces
         void Update(T entity);
         void Delete(T entity);
         Task SaveAsync();
-        DbSet<T> Table { get; }
+        DbSet<T> Table { get;}
+        Task<bool> IsExistAsync(Expression<Func<T, bool>> expression);
     }
 }
 

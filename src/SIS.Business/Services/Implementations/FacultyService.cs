@@ -6,6 +6,7 @@ using SIS.Business.DTOs.FacultyDtos;
 using SIS.Business.Exceptions;
 using SIS.Business.Services.Interfaces;
 using SIS.Core.Entities;
+using SIS.DataAccess.Repositories.Implementations;
 using SIS.DataAccess.Repositories.Interfaces;
 
 namespace SIS.Business.Services.Implementations
@@ -43,6 +44,11 @@ namespace SIS.Business.Services.Implementations
 
         public async Task CreateAsync(FacultyPostDto faculty)
         {
+            var isExist = await _facultyrepository.IsExistAsync(f=>f.FacultyNo==faculty.FacultyNo);
+            if (isExist)
+            {
+                throw new RecordDublicatedException("This faculty is already exist");
+            }
             var NewFaculty=_mapper.Map<Faculty>(faculty);
             await _facultyrepository.CreateAsync(NewFaculty);
             await _facultyrepository.SaveAsync();

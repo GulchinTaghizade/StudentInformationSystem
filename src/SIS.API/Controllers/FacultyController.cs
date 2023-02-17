@@ -89,6 +89,10 @@ namespace SIS.API.Controllers
                 await _facultyService.CreateAsync(faculty);
                 return Ok("Faculty successfully created");
             }
+            catch(RecordDublicatedException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError);

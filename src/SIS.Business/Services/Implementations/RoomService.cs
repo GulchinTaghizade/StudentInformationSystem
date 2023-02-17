@@ -7,6 +7,7 @@ using SIS.Business.DTOs.RoomDtos;
 using SIS.Business.Exceptions;
 using SIS.Business.Services.Interfaces;
 using SIS.Core.Entities;
+using SIS.DataAccess.Repositories.Implementations;
 using SIS.DataAccess.Repositories.Interfaces;
 
 namespace SIS.Business.Services.Implementations
@@ -47,6 +48,11 @@ namespace SIS.Business.Services.Implementations
 
         public async Task CreateAsync(RoomPostDto room)
         {
+            var isExist = await _roomRepository.IsExistAsync(r=>r.RoomNo==room.RoomNo);
+            if (isExist)
+            {
+                throw new RecordDublicatedException("This room is already exist");
+            }
             var roomToCreate = _mapper.Map<Room>(room);
             await _roomRepository.CreateAsync(roomToCreate);
             await _roomRepository.SaveAsync();
@@ -58,7 +64,7 @@ namespace SIS.Business.Services.Implementations
             {
                 throw new BadRequestException("Room Id mismatch");
             }
-            var roomToUpdate = _roomRepository.FindByCondition(r => r.Id != null ? r.Id.Equals(room.Id): false).First();
+            var roomToUpdate = _roomRepository.FindByCondition(r => r.Id==room.Id).First();
             if (roomToUpdate is null)
             {
                 throw new NotFoundException("Room is not found");

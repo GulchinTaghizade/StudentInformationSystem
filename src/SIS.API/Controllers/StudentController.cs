@@ -87,7 +87,11 @@ namespace SIS.API.Controllers
             try
             {
                 await _studentService.CreateAsync(student);
-                return Ok();
+                return Ok("Student successfully created.");
+            }
+            catch (RecordDublicatedException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception)
             {

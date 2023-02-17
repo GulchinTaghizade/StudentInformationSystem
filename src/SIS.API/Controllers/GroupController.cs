@@ -94,6 +94,10 @@ namespace SIS.API.Controllers
                 await _groupService.CreateAsync(group);
                 return Ok($"Group - {group.Name} successfully created.");
             }
+            catch (RecordDublicatedException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError);

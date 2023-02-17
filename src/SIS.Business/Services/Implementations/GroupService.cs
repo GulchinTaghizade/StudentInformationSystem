@@ -7,6 +7,7 @@ using SIS.Business.DTOs.GroupDtos;
 using SIS.Business.Exceptions;
 using SIS.Business.Services.Interfaces;
 using SIS.Core.Entities;
+using SIS.DataAccess.Repositories.Implementations;
 using SIS.DataAccess.Repositories.Interfaces;
 
 namespace SIS.Business.Services.Implementations
@@ -48,6 +49,11 @@ namespace SIS.Business.Services.Implementations
 
         public async Task CreateAsync(GroupPostDto group)
         {
+            var isExist = await _groupRepository.IsExistAsync(g=>g.Name==group.Name);
+            if (isExist)
+            {
+                throw new RecordDublicatedException("This group is already exist");
+            }
             var groupToCreate = _mapper.Map<Group>(group);
             await _groupRepository.CreateAsync(groupToCreate);
             await _groupRepository.SaveAsync();
@@ -59,8 +65,7 @@ namespace SIS.Business.Services.Implementations
             {
                 throw new BadRequestException("Group ID mismatch");
             }
-            var groupToUpdate = _groupRepository.
-                FindByCondition(g=>g.Id.Equals(group.Id)).First();
+            var groupToUpdate = _groupRepository.FindByCondition(g=>g.Id.Equals(group.Id)).First();
             if (groupToUpdate is null)
             {
                 throw new NotFoundException("Group is not found");

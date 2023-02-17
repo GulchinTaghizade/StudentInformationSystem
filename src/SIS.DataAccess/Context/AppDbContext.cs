@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Reflection.Emit;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SIS.Core.Entities;
+using SIS.Core.Entities.Identity;
+using SIS.DataAccess.Configurations;
 
 namespace SIS.DataAccess.Context
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext:IdentityDbContext<AppUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
         {
@@ -23,6 +27,12 @@ namespace SIS.DataAccess.Context
         public DbSet<StudentCourse> StudentCourses { get; set; } = null!;
         public DbSet<TeacherCourse> TeacherCourses { get; set; } = null!;
         public DbSet<TeacherStudent> TeacherStudents { get; set; } = null!;
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.ApplyConfigurationsFromAssembly(typeof(CourseCofiguration).Assembly);
+        //    base.OnModelCreating(modelBuilder);
+        //}
     }
 }
 

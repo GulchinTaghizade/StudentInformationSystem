@@ -48,6 +48,11 @@ namespace SIS.Business.Services.Implementations
 
         public async Task CreateAsync(TeacherPostDto teacher)
         {
+            var isExist = await _teacherRepository.IsExistAsync(t => t.NationalId==teacher.NationalId);
+            if (isExist)
+            {
+                throw new RecordDublicatedException("This teacher is already exist");
+            }
             var newTeacher = _mapper.Map<Teacher>(teacher);
             await _teacherRepository.CreateAsync(newTeacher);
             await _teacherRepository.SaveAsync();
