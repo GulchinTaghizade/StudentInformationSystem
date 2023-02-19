@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Reflection.Emit;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -28,11 +29,11 @@ namespace SIS.DataAccess.Context
         public DbSet<TeacherCourse> TeacherCourses { get; set; } = null!;
         public DbSet<TeacherStudent> TeacherStudents { get; set; } = null!;
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.ApplyConfigurationsFromAssembly(typeof(CourseCofiguration).Assembly);
-        //    base.OnModelCreating(modelBuilder);
-        //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CourseCofiguration).Assembly);
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
 

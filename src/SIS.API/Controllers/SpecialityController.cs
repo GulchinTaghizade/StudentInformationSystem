@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SIS.Business.DTOs.SpecialityDtos;
@@ -15,6 +16,7 @@ namespace SIS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize]
     public class SpecialityController : ControllerBase
     {
         private readonly ISpecialityService _specialityService;

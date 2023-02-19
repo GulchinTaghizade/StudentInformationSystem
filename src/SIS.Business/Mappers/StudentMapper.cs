@@ -12,8 +12,9 @@ namespace SIS.Business.Mappers
 		{
 			CreateMap<Student, StudentDto>()
 				.ForMember(s => s.Faculty, s => s.MapFrom(f => f.Faculty.Name))
-				.ForMember(s=>s.Speciality,s=>s.MapFrom(s=>s.Speciality.Name));
-			CreateMap<Student, StudentPostDto>().ReverseMap();
+				.ForMember(s=>s.Speciality,s=>s.MapFrom(s=>s.Speciality.Name))
+				.ForMember(s=>s.Group,s=>s.MapFrom(s=>s.Group.Name));
+			CreateMap< StudentPostDto, Student>().ReverseMap();
             CreateMap<Student, StudentUpdateDto>().ReverseMap();
         }
     }

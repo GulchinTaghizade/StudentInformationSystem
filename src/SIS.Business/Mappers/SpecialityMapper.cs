@@ -11,7 +11,7 @@ namespace SIS.Business.Mappers
 		{
 			CreateMap<Speciality, SpecialityDto>()
 				.ForMember(s => s.Faculty, s => s.MapFrom(f => f.Faculty.Name));
-			CreateMap<Speciality, SpecialityPostDto>().ReverseMap();
+			CreateMap<SpecialityPostDto,Speciality>().ReverseMap();
             CreateMap<SpecialityUpdateDto,Speciality>()
 				.ForPath(s=>s.Faculty.Name, s => s.MapFrom(f => f.FacultyName));
         }

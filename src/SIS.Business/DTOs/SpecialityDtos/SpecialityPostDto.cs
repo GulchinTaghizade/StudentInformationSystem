@@ -5,7 +5,7 @@ namespace SIS.Business.DTOs.SpecialityDtos
 	{
         public string? Name { get; set; }
         public string? SpecialityNo { get; set; }
-        public string? FacultyName { get; set; }
+        public int? FacultyId { get; set; }
     }
 }
 

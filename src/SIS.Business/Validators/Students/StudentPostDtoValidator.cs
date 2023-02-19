@@ -77,13 +77,21 @@ namespace SIS.Business.Validators.Students
                WithMessage("EducationalLanguage is required").
                MaximumLength(25).
               WithMessage("Max Length : 25");
-            RuleFor(s => s.GroupName).
+            RuleFor(s => s.GroupId).
                NotEmpty().
                WithMessage("GroupName is required").
                NotNull().
-               WithMessage("GroupName is required").
-               MaximumLength(25).
-               WithMessage("Max Length : 25");
+               WithMessage("GroupName is required");
+            RuleFor(s => s.FacultyId).
+               NotEmpty().
+               WithMessage("FacultyId is required").
+               NotNull().
+               WithMessage("FacultyId is required");
+            RuleFor(s => s.SpecialityId).
+               NotEmpty().
+               WithMessage("SpecialityId is required").
+               NotNull().
+               WithMessage("SpecialityId is required");
             RuleFor(s => s.YearOfStudy).
                NotEmpty().
                WithMessage("YearOfStudy is required").

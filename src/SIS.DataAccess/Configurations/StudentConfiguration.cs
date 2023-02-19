@@ -18,11 +18,11 @@ namespace SIS.DataAccess.Configurations
             builder.Property(s => s.Address).IsRequired(true).HasMaxLength(200);
             builder.Property(s => s.Phone).IsRequired(true).HasMaxLength(25);
             builder.Property(s => s.Email).IsRequired(true).HasMaxLength(100);
-            builder.Property(s => s.Faculty).IsRequired(true).HasMaxLength(100);
-            builder.Property(s => s.Speciality).IsRequired(true).HasMaxLength(50);
+            builder.Property(s => s.FacultyId).IsRequired(true);
+            builder.Property(s => s.SpecialityId).IsRequired(true);
             builder.Property(s => s.EducationalLanguage).IsRequired(true).HasMaxLength(25);
             builder.Property(s => s.EducationalLevel).IsRequired(true).HasMaxLength(25);
-            builder.Property(s => s.GroupName).IsRequired(true).HasMaxLength(25);
+            builder.Property(s => s.Id).IsRequired(true);
             builder.Property(s => s.YearOfStudy).IsRequired(true);
             builder.Property(s => s.GPA).IsRequired(true);
 

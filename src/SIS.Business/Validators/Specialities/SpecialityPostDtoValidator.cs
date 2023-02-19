@@ -22,13 +22,11 @@ namespace SIS.Business.Validators.Specialities
                 WithMessage("SpecialityNo is required").
                 MaximumLength(100).
                 WithMessage("Max Length : 100");
-            RuleFor(s => s.FacultyName).
+            RuleFor(s => s.FacultyId).
                 NotEmpty().
-                WithMessage("FacultyName is required").
+                WithMessage("FacultyID is required").
                 NotNull().
-                WithMessage("FacultyName is required").
-                MaximumLength(100).
-                WithMessage("Max Length : 100");
+                WithMessage("FacultyID is required");
 
         }
 	}

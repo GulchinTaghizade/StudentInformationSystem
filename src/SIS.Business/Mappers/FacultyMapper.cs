@@ -9,7 +9,7 @@ namespace SIS.Business.Mappers
 	{
 		public FacultyMapper()
 		{
-			CreateMap<Faculty, FacultyDto>().ReverseMap();
+			CreateMap<FacultyDto,Faculty>().ReverseMap();
 			CreateMap<Faculty, FacultyPostDto>().ReverseMap();
 		}
 	}

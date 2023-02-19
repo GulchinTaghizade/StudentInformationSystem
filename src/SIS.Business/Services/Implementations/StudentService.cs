@@ -28,20 +28,29 @@ namespace SIS.Business.Services.Implementations
             var students=await _studentRepository.FindAll()
                 .Include(f=>f.Faculty)
                 .Include(s => s.Speciality)
+                .Include(g=>g.Group)
                 .ToListAsync();
             return _mapper.Map<List<StudentDto>>(students);
         }
 
         public async Task<List<StudentDto>> FindByConditionAsync(Expression<Func<Student, bool>> expression)
         {
-            var students = await _studentRepository.FindByCondition(expression).Include(f=>f.Faculty).ToListAsync();
+            var students = await _studentRepository
+                .FindByCondition(expression)
+                .Include(f=>f.Faculty)
+                .Include(s => s.Speciality)
+                .Include(g => g.Group).ToListAsync();
             return _mapper.Map<List<StudentDto>>(students);
 
         }
 
         public async Task<StudentDto> FindByIdAsync(int id)
         {
-            var student = await _studentRepository.FindByIdAsync(id);
+            var student = await _studentRepository
+                .FindByIdAsync(id);
+                //.Include(f => f.Faculty)
+                //.Include(s => s.Speciality)
+                //.Include(g => g.Group);
             if (student is null)
             {
                 throw new NotFoundException("This student does not exist");

@@ -15,7 +15,7 @@ namespace SIS.Business.DTOs
         public string? Speciality { get; set; }
         public string? Faculty { get; set; }
         public string? EducationalLevel { get; set; }
-        public string? GroupName { get; set; }
+        public string? Group { get; set; }
         public string? YearOfStudy { get; set; }
         public decimal? GPA { get; set; }
     }

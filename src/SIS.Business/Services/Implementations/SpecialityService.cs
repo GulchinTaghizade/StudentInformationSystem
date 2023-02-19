@@ -58,7 +58,13 @@ namespace SIS.Business.Services.Implementations
             {
                 throw new RecordDublicatedException("This speciality is already exist");
             }
-            var newSpeciality= _mapper.Map<Speciality>(speciality);
+
+            //var isFacultyExist = _facultyRepository.FindByCondition(f => f.Id.Equals(speciality.FacultyId));
+            //if (isFacultyExist !=null)
+            //{
+
+            //}
+            var newSpeciality = _mapper.Map<Speciality>(speciality);
             await _specialityRepository.CreateAsync(newSpeciality);
             await _specialityRepository.SaveAsync();
         }
