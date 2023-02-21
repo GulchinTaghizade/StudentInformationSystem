@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -26,14 +27,22 @@ namespace SIS.Business.Services.Implementations
             _tokenHandler = tokenHandler;
         }
 
-        public async Task RegisterAsync(RegisterDto registerDto)
+        public async Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto)
         {
+            var isExist = await _userManager.FindByEmailAsync(registerDto.Email);
+            if (isExist != null)
+            {
+                throw new RecordDublicatedException("This email already registered.Please try with another email.");
+            }
+
             AppUser user = new()
             {
                 Fullname = registerDto.Fullname,
                 UserName = registerDto.Username,
-                Email = registerDto.Email
+                Email = registerDto.Email,
+                EmailConfirmed = false
             };
+
             var identityResult = await _userManager.CreateAsync(user, registerDto.Password);
             if (!identityResult.Succeeded)
             {
@@ -59,13 +68,43 @@ namespace SIS.Business.Services.Implementations
                 }
                 throw new RoleCreateFailureException(errors);
             }
+
+            var token = HttpUtility.UrlEncode(await _userManager.GenerateEmailConfirmationTokenAsync(user));
+            return new AuthResponseDto()
+            {
+                Token = token,
+                ExpireDate = DateTime.UtcNow.AddMinutes(10),
+                Username = user.UserName,
+                UserId = user.Id,
+                Email = user.Email
+            };
+        }
+
+        public async Task ConfirmEmail(string token, string userId)
+        {
+            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(userId))
+            {
+                throw new BadRequestException("Token or UserId is invalid");
+            }
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user.EmailConfirmed == true)
+            {
+                throw new RecordDublicatedException("This email already confirmed!");
+            }
+            var decodeToken = HttpUtility.UrlDecode(token);
+            var result = await _userManager.ConfirmEmailAsync(user, decodeToken);
+            if (!result.Succeeded)
+            {
+                throw new ConfirmationException("Email didn't confirmed!");
+            }
+
         }
 
         public async Task<TokenResponseDto> LoginAsync(LoginDto loginDto)
         {
             var user = await _userManager.FindByNameAsync(loginDto.Username);
             if (user is null) throw new AuthFailException("UserName or password is not correct!");
-
+            if (user.EmailConfirmed == false)  throw new ConfirmationException("This account didn't confirmed yet");
             var check = await _userManager.CheckPasswordAsync(user, loginDto.Password);
             if (!check) throw new AuthFailException("UserName or password is not correct!");
 
@@ -73,6 +112,38 @@ namespace SIS.Business.Services.Implementations
             var TokenResponse = await _tokenHandler.GetTokenAsync(user, 1);
             return TokenResponse;
         }
+
+        public async Task<AuthResponseDto> ForgotPasswordAsync(ForgotPasswordDto forgotPassword)
+        {
+            var user = await _userManager.FindByEmailAsync(forgotPassword.EmailOrUsername);
+            if (user is null)
+            {
+                user = await _userManager.FindByNameAsync(forgotPassword.EmailOrUsername);
+            }
+
+            if (user is null) throw new NotFoundException("There is not exist any account for this email/username");
+
+            var token = HttpUtility.UrlEncode(await _userManager.GeneratePasswordResetTokenAsync(user));
+            return new AuthResponseDto
+            {
+                Token = token,
+                Email = user.Email,
+                ExpireDate = DateTime.UtcNow.AddMinutes(10),
+                UserId = user.Id,
+                Username = user.UserName
+            };
+        }
+
+        public async Task ResetPasswordAsync(string token, string userId, ResetPasswordDto resetPassword)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token)) throw new AuthFailException("token or user id is empty");
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user is null) throw new NotFoundException("User not found");
+            var decodeToken = HttpUtility.UrlDecode(token);
+            var identityResult = await _userManager.ResetPasswordAsync(user, decodeToken, resetPassword.NewPassword);
+            if (!identityResult.Succeeded) throw new BadRequestException("Password couldn't reset!");
+        }
+
     }
 }
 

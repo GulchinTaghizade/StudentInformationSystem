@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SIS.Business.DTOs.AuthDtos;
@@ -27,8 +28,8 @@ namespace SIS.API.Controllers
         {
             try
             {
-                await _authService.RegisterAsync(registerDto);
-                return Ok("User successfully registered");
+                var response=await _authService.RegisterAsync(registerDto);
+                return Ok(response);
 
             }
             catch (UserCreateFailureException ex)
@@ -38,6 +39,29 @@ namespace SIS.API.Controllers
             catch (RoleCreateFailureException)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> ConfirmEmail(string token, string userId)
+        {
+            try
+            {
+                await _authService.ConfirmEmail(token, userId);
+                return Ok("Email confirmed by user");
+            }
+            catch (ConfirmationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (DuplicateWaitObjectException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 
@@ -57,6 +81,47 @@ namespace SIS.API.Controllers
             catch (Exception)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto forgotPassword)
+        {
+            try
+            {
+                var response = await _authService.ForgotPasswordAsync(forgotPassword);
+                return Ok(response);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ResetPasswordAsync(string token, string userId, [FromForm] ResetPasswordDto resetPassword)
+        {
+            try
+            {
+                await _authService.ResetPasswordAsync(token, userId, resetPassword);
+                return Ok("reset done");
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (BadRequestException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
             }
         }
     }
